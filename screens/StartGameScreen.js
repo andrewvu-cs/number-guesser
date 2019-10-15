@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Button,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  Alert
 } from "react-native";
 
 import Card from "../components/Card";
@@ -24,30 +25,37 @@ const StartGameScreen = props => {
   };
 
   const resetInputHandler = () => {
-    setEnteredValue('');
+    setEnteredValue("");
     setConfirmed(false);
-  }
+  };
 
   const confirmInputHandler = () => {
-      const chosenNumber = parseInt(enteredValue);
-      if (chosenNumber === NaN || chosenNumber <= 0 || chosenNumber > 99){
-        return;
-      }
-      setConfirmed(true);
-      setSelectedNumber(chosenNumber);
-      setEnteredValue('');
-  }
+    const chosenNumber = parseInt(enteredValue);
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      Alert.alert(
+        "Invalid Number!",
+        "Number has to be a number between 1 and 99.",
+        [{ text: "Okay", style: "destructive", onPress: resetInputHandler }]
+      );
+      return;
+    }
+    setConfirmed(true);
+    setSelectedNumber(chosenNumber);
+    setEnteredValue("");
+  };
 
   let confirmedOutput;
 
   if (confirmed) {
-    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>
+    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>;
   }
   // blurOnSubmit is an android thing
   return (
-    <TouchableWithoutFeedback onPress={() => {
-      Keyboard.dismiss();
-    }}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
       <View style={styles.screen}>
         <Text style={styles.title}>The Game Screen!</Text>
         <Card style={styles.inputContainer}>
@@ -64,10 +72,18 @@ const StartGameScreen = props => {
           />
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
-              <Button title="Reset" onPress={resetInputHandler} color={secondary} />
+              <Button
+                title="Reset"
+                onPress={resetInputHandler}
+                color={secondary}
+              />
             </View>
             <View style={styles.button}>
-              <Button title="Confirm" onPress={confirmInputHandler} color={primary} />
+              <Button
+                title="Confirm"
+                onPress={confirmInputHandler}
+                color={primary}
+              />
             </View>
           </View>
         </Card>
