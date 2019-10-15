@@ -18,6 +18,7 @@ const fetchFonts = () => {
 export default function App() {
   const [userNumber, setUserNumber] = useState();
   const [guessRounds, setGuessRounds] = useState(0);
+  const [guessOutBounds, setOutBounds] = useState(0);
   const [dataLoaded, setDataLoaded] = useState(false);
 
   // app loading is usually used for assets
@@ -40,9 +41,11 @@ export default function App() {
     setUserNumber(selectedNumber);
   };
 
-  const gameOverHandler = numOfRounds => {
+  const gameOverHandler = (numOfRounds, numOutBounds) => {
     setGuessRounds(numOfRounds);
+    setOutBounds(numOutBounds);
   };
+
   let content = <StartGameScreen onStartGame={startGameHandler} />;
 
   if (userNumber && guessRounds <= 0) {
@@ -52,9 +55,10 @@ export default function App() {
   } else if (guessRounds > 0) {
     content = (
       <GameOverScreen
-        roundsNumber={guessRounds}
+        roundsNumber={guessRounds + guessOutBounds}
         userNumber={userNumber}
         onRestart={configureNewGameHandler}
+        outBoundsNumber={guessOutBounds}
       />
     );
   }
