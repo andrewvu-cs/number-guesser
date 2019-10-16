@@ -55,7 +55,7 @@ export default function App() {
   } else if (guessRounds > 0) {
     content = (
       <GameOverScreen
-        roundsNumber={guessRounds + guessOutBounds}
+        roundsNumber={guessRounds}
         userNumber={userNumber}
         onRestart={configureNewGameHandler}
         outBoundsNumber={guessOutBounds}
