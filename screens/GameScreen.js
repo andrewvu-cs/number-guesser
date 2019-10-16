@@ -9,6 +9,7 @@ import {
   Dimensions
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { ScreenOrientation } from 'expo'
 
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
@@ -36,6 +37,7 @@ const renderListItem = (listLength, itemData) => (
 );
 
 const GameScreen = props => {
+  // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
   const initialGuess = generateRandomBetween(1, 100, props.userChoice);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
@@ -105,11 +107,11 @@ const GameScreen = props => {
         <TitleText>Opponent's Guess</TitleText>
 
         <View style={styles.controls}>
-          <TitleText style={styles.roundsText}>
+          {/* <TitleText style={styles.roundsText}>
             Round: <Text style={styles.roundsHighlight}>{rounds + 1} </Text>
-          </TitleText>
+          </TitleText> */}
           <View style={styles.buttonContainer}>
-            <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
+            <MainButton onPress={nextGuessHandler.bind(this, "lower") }>
               <Ionicons name="md-remove" size={24} color="white" />
             </MainButton>
             <NumberContainer>{currentGuess}</NumberContainer>
@@ -139,18 +141,18 @@ const GameScreen = props => {
     <View style={styles.screen}>
       <TitleText>Opponent's Guess</TitleText>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <Card style={styles.cardContainer}>
-        <TitleText style={styles.roundsText}>
+      <Card style={styles.buttonContainer}>
+        {/* <TitleText style={styles.roundsText}>
           Round: <Text style={styles.roundsHighlight}>{rounds + 1} </Text>
-        </TitleText>
-        <View style={styles.buttonContainer}>
+        </TitleText> */}
+        {/* <View style={styles.buttonContainer}> */}
           <MainButton onPress={nextGuessHandler.bind(this, "lower")}>
             <Ionicons name="md-remove" size={24} color="white" />
           </MainButton>
           <MainButton onPress={nextGuessHandler.bind(this, "greater")}>
             <Ionicons name="md-add" size={24} color="white" />
           </MainButton>
-        </View>
+        {/* </View> */}
       </Card>
       <View style={styles.listContainer}>
         {/* <ScrollView contentContainerStyle={styles.list}>
@@ -177,8 +179,6 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     marginTop: 20,
-    width: 400,
-    maxWidth: "90%",
     marginTop: Dimensions.get("window").height > 600 ? 20 : 5
   },
   roundsText: {
@@ -189,8 +189,12 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around"
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: Dimensions.get('window').height > 600 ? 20 : 5,
+    width: 400,
+    maxWidth: '90%',
+    alignItems: 'center'
   },
   roundsHighlight: {
     color: Colors.primary,
